@@ -1,0 +1,55 @@
+# ////////////////////////////
+# Config Spring Servlet Information
+# https://docs.spring.io/spring-boot/appendix/application-properties/index.html#
+# ////////////////////////////
+---
+server:
+  port: 8081 # Server HTTP port
+  tomcat:
+    uri-encoding: UTF-8 # Character encoding to use to decode the URI
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+# ////////////////////////////
+# Config Spring Information
+# ////////////////////////////
+---
+spring:
+  main:
+    banner-mode: log # Mode used to display the banner when the application runs. There are log, console
+    allow-bean-definition-overriding: true # Whether bean definition overriding, by registering a definition with the same name as an existing definition, is allowed.
+  output:
+    ansi:
+      enabled: always # Configures the ANSI output, default detect
+  mvc:
+    throw-exception-if-no-handler-found: true
+  jpa:
+    generate-ddl: true # Whether to initialize the schema on startup.
+    show-sql: false # Whether to enable logging of SQL statements.
+    hibernate:
+      # DDL mode. This is actually a shortcut for the "hibernate.hbm2ddl.auto" property.
+      # Defaults to "create-drop" when using an embedded database and no schema manager was detected.
+      # Otherwise, defaults to "none".
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        connection:
+          characterEncoding: utf-8
+          CharSet: utf-8
+          useUnicode: true
+
+# ////////////////////////////
+# Config Locality Attributes
+# ////////////////////////////
+---
+spring:
+  jackson:
+    # Controls the inclusion of properties during serialization.
+    # Configured with one of the values in Jackson's JsonInclude.Include enumeration.
+    default-property-inclusion: non_null
+    date-format: yyyy-MM-dd HH:mm:ss # Date format string or a fully-qualified date format class name. For instance, 'yyyy-MM-dd HH:mm:ss'.
+    time-zone: Asia/Ho_Chi_Minh # Time zone used when formatting dates. For instance, "America/Los_Angeles" or "GMT+10".

@@ -1,0 +1,21 @@
+# ////////////////////////////
+# Config Logging Attributes
+# ////////////////////////////
+---
+logging:
+  level: # Log levels severity mapping. For instance, `logging.level.org.springframework=DEBUG`.
+    root: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE
+    org.springframework.web: DEBUG
+  file:
+    name: "logs/app.log"
+    max-size: 2MB
+    total-size-cap: 10MB
+    max-history: 30
+    clean-history-on-start: false
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%"
+    # Appender pattern for output to the console. Supported only with the default Logback setup.
+    console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(%logger{0}){blue} %clr(%m){faint}%n %yellow(%logger{15}) -> %msg%n"
+    rolling-file-name: logs/app-%d{yyyy-MM-dd}.%i.log

@@ -1,0 +1,161 @@
+//file:noinspection SpellCheckingInspection
+plugins {
+    // Apply the Java plugin for Java project configuration.
+    id 'java'
+
+    // Apply Spring Boot plugin with version 2.6.7 for easier Spring Boot application configuration.
+    id 'org.springframework.boot' version '2.6.7' // 2.3.12.RELEASE
+
+    // Apply Spring Dependency Management plugin to manage dependency versions more easily.
+    id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.suit4j' // Set the group identifier for the project.
+version = '0.0.1' // Set the version of the project.
+
+java {
+    // Set Java source compatibility to Java 8.
+    sourceCompatibility = '1.8'
+}
+
+configurations {
+    compileOnly {
+        // Extend compileOnly configuration from annotationProcessor.
+        extendsFrom annotationProcessor
+    }
+}
+
+def props = new Properties()
+props.load(new FileInputStream(rootProject.file("gradle.properties")))
+def _name = props.getProperty("ng.name")
+def _version = props.getProperty("ng.version")
+
+repositories {
+    // Define Maven Central repository for fetching dependencies.
+    mavenCentral()
+}
+
+bootJar {
+    archivesBaseName = "${_name}"
+    version = "${_version}"
+}
+
+dependencies {
+    // The 'org.postgresql:postgresql' dependency is declared with 'runtimeOnly' scope,
+    // indicating that it is required only during runtime for specific purposes,
+    // such as database connectivity, but not for compilation or testing.
+    runtimeOnly 'org.postgresql:postgresql'
+    // The 'org.springframework.boot:spring-boot-starter-data-jpa' dependency is declared with 'implementation' scope,
+    // indicating that it is required for compiling and running the application.
+    // It provides essential components and configurations for working with JPA (Java Persistence API) in a Spring Boot application,
+    // facilitating database access and ORM (Object-Relational Mapping) functionality.
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // The 'org.springframework.boot:spring-boot-starter-data-rest' dependency is declared with 'implementation' scope,
+    // indicating that it is necessary for compiling and running the application.
+    // It provides Spring Boot starters for building RESTful APIs backed by Spring Data repositories.
+    // This allows for easy creation of RESTful endpoints for data manipulation and retrieval, following REST principles.
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    // The 'org.springframework.boot:spring-boot-starter-security' dependency is declared with 'implementation' scope,
+    // indicating that it is necessary for compiling and running the application.
+    // It provides Spring Boot starters for integrating security features into the application.
+    // This includes authentication, authorization, and other security mechanisms, allowing for the secure development of web applications.
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // The 'org.springframework.boot:spring-boot-starter-web' dependency is declared with 'implementation' scope,
+    // indicating that it is necessary for compiling and running the application.
+    // It provides Spring Boot starters for building web applications with Spring MVC (Model-View-Controller) framework.
+    // This includes components for handling HTTP requests and responses, as well as other web-related functionalities,
+    // making it easier to develop web applications in Spring Boot.
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // The 'org.springframework.session:spring-session-core' dependency is declared with 'implementation' scope,
+    // indicating that it is necessary for compiling and running the application.
+    // It provides core functionality for managing user sessions in a Spring application.
+    // Spring Session enables session management across multiple servlet containers and provides additional features such as session data persistence
+    // and sharing across multiple nodes in a distributed environment.
+    implementation 'org.springframework.session:spring-session-core'
+    // The 'org.springframework.boot:spring-boot-devtools' dependency is declared with 'developmentOnly' scope,
+    // indicating that it is required only during development time and should not be included in production builds.
+    // Spring Boot DevTools provides a set of tools aimed at improving the development experience,
+    // including automatic application restarts, enhanced reload capabilities, and additional debugging support.
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // The 'org.springframework.boot:spring-boot-configuration-processor' dependency is declared with 'annotationProcessor' scope,
+    // indicating that it is used during the annotation processing phase of compilation.
+    // It is typically used in conjunction with Spring Boot configuration classes to generate metadata files and aid in auto-configuration of Spring applications.
+    // This processor helps streamline the configuration process and ensure consistency in application setup.
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    // The 'org.springframework.boot:spring-boot-starter-test' dependency is declared with 'testImplementation' scope,
+    // indicating that it is necessary for compiling and running tests, but should not be included in production builds.
+    // It provides a comprehensive set of libraries and tools for testing Spring Boot applications, including JUnit, Spring Test, Mockito, and other testing frameworks.
+    // This starter facilitates writing and running tests for Spring Boot applications, ensuring their reliability and correctness.
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // The 'org.springframework.security:spring-security-test' dependency is declared with 'testImplementation' scope,
+    // indicating that it is necessary for compiling and running tests, but should not be included in production builds.
+    // It provides utilities and tools for testing Spring Security configurations and features.
+    // This includes support for testing authentication, authorization, and other security-related aspects of Spring applications,
+    // ensuring their robustness and correctness in various security scenarios.
+    testImplementation 'org.springframework.security:spring-security-test'
+    // The 'org.junit.platform:junit-platform-launcher' dependency is declared with 'testRuntimeOnly' scope,
+    // indicating that it is required only during the execution of tests, but not for compiling them.
+    // It provides the launcher for executing JUnit 5 tests on the JUnit Platform, allowing for the discovery and execution of tests written using JUnit 5.
+    // This launcher is necessary for running JUnit tests within the testing environment.
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // The 'net.logstash.logback:logstash-logback-encoder' dependency is declared with 'implementation' scope,
+    // indicating that it is necessary for compiling and running the application. It provides the Logstash encoder for Logback,
+    // enabling the logging of events in a format compatible with Logstash.
+    // This encoder allows for structured logging, which is particularly useful for centralized log management and analysis in distributed systems.
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.0.1'
+    // The 'ch.qos.logback.contrib:logback-jackson' dependency is declared with 'implementation' scope,
+    // indicating that it is necessary for compiling and running the application.
+    // It provides the Jackson-based JSON layout for Logback, allowing for JSON-formatted logging output.
+    // This layout is useful for compatibility with JSON-based log analysis tools and services, enabling structured logging in Logback-based applications
+    implementation group: 'ch.qos.logback.contrib', name: 'logback-jackson', version: '0.1.5'
+    // The 'ch.qos.logback.contrib:logback-json-classic' dependency is declared with 'implementation' scope,
+    // indicating that it is necessary for compiling and running the application.
+    // It provides the classic JSON layout for Logback, allowing for JSON-formatted logging output.
+    // This layout is useful for compatibility with JSON-based log analysis tools and services, enabling structured logging in Logback-based applications in a classic JSON format.
+    implementation group: 'ch.qos.logback.contrib', name: 'logback-json-classic', version: '0.1.5'
+    // The 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml' dependency is declared with 'implementation' scope,
+    // indicating that it is necessary for compiling and running the application. It provides support for reading and writing YAML (YAML Ain't Markup Language) data using the Jackson library.
+    // This data format is useful for configuration files and other structured data that benefit from human readability and easy serialization.
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.9.3'
+    // Add dependencies for JAXB, activation, and Jackson libraries
+    // JAXB is commonly used for marshalling and unmarshalling XML data in Java applications.
+    // If your project deals with XML data and you need to convert Java objects to XML (marshalling) or vice versa (unmarshalling), then JAXB may be necessary.
+    implementation('javax.xml.bind:jaxb-api:2.3.0')
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.17.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.17.0'
+    // The activation library provides support for the JavaBeans Activation Framework, which is used to determine the type of an arbitrary piece of data,
+    // encapsulate access to it, discover the operations available on it, and to instantiate the appropriate bean to perform those operations.
+    // It's typically used in JavaMail API and other contexts where dynamic loading of data types is required.
+    implementation('javax.activation:activation:1.1')
+    // Jackson is a popular JSON library for Java, used for parsing JSON data into Java objects and vice versa.
+    // If your project deals with JSON data, then Jackson can be very useful for serialization and deserialization.
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-joda', version: '2.17.0'
+    // The "spring-boot-configuration-processor" library, version 2.7.18,
+    // is a Spring Boot module that processes configuration metadata annotations to generate metadata files and aid in auto-configuration of Spring applications.
+    implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.7.18'
+    // Hibernate Core is the core framework that provides Object-Relational Mapping (ORM) support
+    // for Java applications. It enables the mapping of Java classes to database tables and handles
+    // data persistence, retrieval, and transactions seamlessly.
+    implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.6.15.Final'
+    // Hibernate Validator is the reference implementation of the Bean Validation API (JSR 380).
+    // It provides a robust framework for defining and enforcing validation constraints on Java
+    // objects, ensuring that they meet specific criteria before being persisted or used.
+    implementation group: 'org.hibernate', name: 'hibernate-validator', version: '7.0.0.Alpha1'
+    // javax.persistence-api is the Java Persistence API (JPA) which defines the standard
+    // for object-relational mapping in Java. It provides a set of APIs and annotations to manage
+    // relational data in Java applications, facilitating the development of data-driven applications.
+    implementation group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
+    // The "spring-tx" library, version 5.3.25, provides comprehensive support for transaction management
+    // in Spring applications. It allows developers to manage transactions declarative or programmatically,
+    // ensuring data consistency and integrity across various transactional operations.
+    implementation 'org.springframework:spring-tx:5.3.25'
+
+    // unify4J: Java 1.8 skeleton library offering a rich toolkit of utility functions for collections, strings, date/time, JSON, maps, and more.
+    implementation files('libs/unify4j-v1.0.0.jar')
+    // force4j: a robust designed for managing HTTP status responses with a base response handler and control advice for response entities.
+    implementation files('libs/force4j-v1.0.0.jar')
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

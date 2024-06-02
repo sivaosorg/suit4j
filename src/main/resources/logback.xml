@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--  begin::Paths  -->
+    <property name="LOGS" value="./logs"/>
+    <property name="LOG_ARCHIVED" value="${LOGS}/archived"/>
+    <property name="INFO_LOG_PATH" value="${LOGS}/info.log"/>
+    <property name="ERROR_LOG_PATH" value="${LOGS}/error.log"/>
+    <property name="DEBUG_LOG_PATH" value="${LOGS}/debug.log"/>
+    <property name="TRACE_LOG_PATH" value="${LOGS}/trace.log"/>
+    <property name="WARN_LOG_PATH" value="${LOGS}/warn.log"/>
+    <!--  end::Paths  -->
+
+    <!--  Note:
+    1. maxFileSize -  each archived file, size max 10MB
+    2. totalSizeCap -  total size of all archive files, if total size > 5GB, it will delete old archived file
+    3. maxHistory - 30 days to keep
+     -->
+
+    <!--  begin::Const -->
+    <property name="maxFileSize" value="10MB"/>
+    <property name="totalSizeCap" value="5GB"/>
+    <property name="maxHistory" value="30"/>
+    <property name="info-context" value="info-context"/>
+    <property name="error-context" value="error-context"/>
+    <property name="debug-context" value="debug-context"/>
+    <property name="trace-context" value="trace-context"/>
+    <property name="warn-context" value="warn-context"/>
+    <property name="console-formatted"
+              value="%green(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable"/>
+    <property name="STDOUT" value="%d %p %c{1.} [%t] %m%n"/>
+    <!--  end::Const -->
+
+    <!--  begin::Console  -->
+    <appender name="CONSOLE-DEFAULT"
+              class="ch.qos.logback.core.ConsoleAppender">
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %green(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="CONSOLE-INFO"
+              class="ch.qos.logback.core.ConsoleAppender">
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                ${console-formatted}
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="CONSOLE-ERROR"
+              class="ch.qos.logback.core.ConsoleAppender">
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                ${console-formatted}
+            </Pattern>
+        </layout>
+    </appender>
+    <!--  end::Console  -->
+
+    <!--  begin::Rotate logs file  -->
+    <!--  begin::Info  -->
+    <appender name="FILE-ROLLING-INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${INFO_LOG_PATH}</file>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ARCHIVED}/${info-context}/${info-context}-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${STDOUT}</pattern>
+        </encoder>
+    </appender>
+    <!--  end::Info  -->
+
+    <!--  begin::Error  -->
+    <appender name="FILE-ROLLING-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${ERROR_LOG_PATH}</file>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ARCHIVED}/${error-context}/${error-context}-%d{yyyy-MM-dd}.%i.log.gz
+            </fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${STDOUT}</pattern>
+        </encoder>
+    </appender>
+    <!--  end::Error  -->
+
+    <!--  begin::Debug  -->
+    <appender name="FILE-ROLLING-DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${DEBUG_LOG_PATH}</file>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ARCHIVED}/${debug-context}/${debug-context}-%d{yyyy-MM-dd}.%i.log.gz
+            </fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${STDOUT}</pattern>
+        </encoder>
+    </appender>
+    <!--  end::Debug  -->
+
+    <!--  begin::Trace  -->
+    <appender name="FILE-ROLLING-TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${TRACE_LOG_PATH}</file>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ARCHIVED}/${trace-context}/${trace-context}-%d{yyyy-MM-dd}.%i.log.gz
+            </fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${STDOUT}</pattern>
+        </encoder>
+    </appender>
+    <!--  end::Trace  -->
+
+    <!--  begin::Warn  -->
+    <appender name="FILE-ROLLING-WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${WARN_LOG_PATH}</file>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ARCHIVED}/${warn-context}/${warn-context}-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${STDOUT}</pattern>
+        </encoder>
+    </appender>
+    <!--  end::Warn  -->
+
+    <!--  begin::Console Json  -->
+    <!--  implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.0.1'  -->
+    <appender name="CONSOLE-INFO-JSON" class="ch.qos.logback.core.ConsoleAppender">
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>Asia/Ho_Chi_Minh</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "service": "YourApp",
+                        "traceId": "%X{X-B3-TraceId:-}",
+                        "spanId": "%X{X-B3-SpanId:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "message": "%message"
+                        }
+                    </pattern>
+                </pattern>
+                <stackTrace>
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <maxDepthPerThrowable>30</maxDepthPerThrowable>
+                        <maxLength>2048</maxLength>
+                        <shortenedClassNameLength>20</shortenedClassNameLength>
+                        <rootCauseFirst>true</rootCauseFirst>
+                    </throwableConverter>
+                </stackTrace>
+            </providers>
+        </encoder>
+    </appender>
+    <!--  end::Console Json  -->
+
+    <!--  begin::Console Json 2  -->
+    <!--  implementation group: 'ch.qos.logback.contrib', name: 'logback-jackson', version: '0.1.5'
+        implementation group: 'ch.qos.logback.contrib', name: 'logback-json-classic', version: '0.1.5'  -->
+    <appender name="CONSOLE-INFO-JSON-2" class="ch.qos.logback.core.ConsoleAppender">
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+            <jsonFormatter
+                    class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                <prettyPrint>true</prettyPrint>
+            </jsonFormatter>
+            <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
+        </layout>
+    </appender>
+    <!--  end::Console Json 2  -->
+    <!--  end::Rotate logs file  -->
+
+    <!--  begin::Asynchronously  -->
+    <appender name="ROLLING-ASYNC-ERROR" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE-ROLLING-ERROR"/>
+    </appender>
+    <!--  end::Asynchronously  -->
+
+    <!--  begin::SysLogs  -->
+    <appender name="SYS-LOGS-INFO" class="ch.qos.logback.classic.net.SyslogAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <syslogHost>192.168.1.2</syslogHost>
+        <port>514</port>
+        <facility>local1</facility> <!-- local1, local2 -->
+        <throwableExcluded>true</throwableExcluded>
+        <suffixPattern>${console-formatted}</suffixPattern>
+    </appender>
+    <!--  end::SysLogs  -->
+
+    <!--  begin::SysLogs  -->
+    <appender name="SYS-LOGS-ERROR" class="ch.qos.logback.classic.net.SyslogAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <syslogHost>192.168.1.2</syslogHost>
+        <port>514</port>
+        <facility>local1</facility> <!-- local1, local2 -->
+        <throwableExcluded>true</throwableExcluded>
+        <suffixPattern>${console-formatted}</suffixPattern>
+    </appender>
+    <!--  end::SysLogs  -->
+
+    <!--  begin::Root  -->
+    <root level="info">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+        <appender-ref ref="CONSOLE-INFO"/>
+        <appender-ref ref="SYS-LOGS-INFO"/>
+    </root>
+
+    <root level="error">
+        <appender-ref ref="ROLLING-ASYNC-ERROR"/>
+        <appender-ref ref="CONSOLE-ERROR"/>
+        <appender-ref ref="SYS-LOGS-ERROR"/>
+    </root>
+
+    <root level="debug">
+        <appender-ref ref="FILE-ROLLING-DEBUG"/>
+    </root>
+
+    <root level="trace">
+        <appender-ref ref="FILE-ROLLING-TRACE"/>
+    </root>
+
+    <root level="warn">
+        <appender-ref ref="FILE-ROLLING-WARN"/>
+    </root>
+    <!--  end::Root  -->
+
+    <!--  begin::Elements  -->
+    <logger name="com.suit4j.app.*" level="INFO" additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+        <appender-ref ref="CONSOLE-INFO"/>
+    </logger>
+
+    <logger name="com.suit4j.app.*" level="ERROR" additivity="false">
+        <appender-ref ref="ROLLING-ASYNC-ERROR"/>
+        <appender-ref ref="CONSOLE-ERROR"/>
+        <appender-ref ref="SYS-LOGS-ERROR"/>
+    </logger>
+
+    <logger name="com.suit4j.app.*" level="WARN" additivity="false">
+        <appender-ref ref="FILE-ROLLING-WARN"/>
+    </logger>
+
+    <logger name="java.sql.PreparedStatement" level="DEBUG">
+        <appender-ref ref="FILE-ROLLING-DEBUG"/>
+    </logger>
+    <logger name="java.sql.Connection" level="DEBUG">
+        <appender-ref ref="FILE-ROLLING-DEBUG"/>
+    </logger>
+    <logger name="java.sql.Statement" level="DEBUG">
+        <appender-ref ref="FILE-ROLLING-DEBUG"/>
+    </logger>
+
+    <!--  begin::Details  -->
+    <logger name="org.springframework.security.web.DefaultSecurityFilterChain" level="INFO" additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator" level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="org.springframework.data.repository.config.RepositoryConfigurationExtensionSupport" level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="org.hibernate.annotations.common.reflection.java.JavaReflectionManager" level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="org.springframework.data.repository.config.RepositoryConfigurationDelegate" level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator" level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker"
+            level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="org.hibernate.jpa.internal.util.LogHelper"
+            level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper"
+            level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="springfox.documentation.spring.web.scanners.ApiListingReferenceScanner"
+            level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="org.hibernate.dialect.Dialect"
+            level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+
+    <logger name="springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping"
+            level="INFO"
+            additivity="false">
+        <appender-ref ref="FILE-ROLLING-INFO"/>
+    </logger>
+    <!--  end::Details  -->
+    <!--  end::Elements  -->
+</configuration>

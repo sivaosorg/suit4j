@@ -7,9 +7,12 @@ profile?=local
 
 # Run the Spring Boot application using Gradle's bootRun task
 run:
+	clear
 	./gradlew bootRun
 # Build the JAR file using Gradle's bootJar task
 build:
+	clear
+	rm -rf build/*
 	./gradlew bootJar
 # Clean build artifacts using Gradle's clean task
 clean:

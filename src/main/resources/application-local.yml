@@ -7,3 +7,45 @@ spring:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration # disable the DataSource autoconfiguration
       - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration # disable the Security autoconfiguration
+
+# ################################
+# Spring BotWrap4j Config
+# 2024-06-16 10:48:54
+# ################################
+---
+spring:
+  # noinspection SpellCheckingInspection
+  botwrap4j:
+    enabled: true
+    telegram_clusters:
+      - key: "worker_logging"
+        cluster_id: "C001" # unique ID
+        enabled: true # enable the config will be executed for sending message
+        debugging: false # enable for debugging mode
+        desc: "T.Worker 0000001"
+        type: Markdown # type of message Markdown or HTML
+        chat_id: -1002042977093 # chatID of your group or channel
+        token: "6806983892:AAGcPZiuNktLFnyVWrRyOyYssECcVmNJSRo" # bot token by BotFather
+      - key: "key2"
+        cluster_id: "C002"
+        enabled: false # enable the config will be executed for sending message
+        debugging: false # enable for debugging mode
+        desc: "T.Worker 0000002"
+        type: Markdown # type of message Markdown or HTML
+        chat_id: -10000000 # chatID of your group or channel
+        token: "bot_token_here" # bot token by BotFather
+    slack_clusters:
+      - key: "key1"
+        cluster_id: "C001" # unique ID
+        enabled: false # enable the config will be executed for sending message
+        debugging: false # enable for debugging mode
+        desc: "S.Worker 0000001"
+        channel_id: "123456789" # channelID of your channel
+        token: "bot_token_here" # bot token
+      - key: "key2"
+        cluster_id: "C002" # unique ID
+        enabled: false # enable the config will be executed for sending message
+        debugging: false # enable for debugging mode
+        desc: "S.Worker 0000002"
+        channel_id: "123456789" # channelID of your channel
+        token: "bot_token_here" # bot token

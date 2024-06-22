@@ -130,6 +130,8 @@ dependencies {
     // Jackson is a popular JSON library for Java, used for parsing JSON data into Java objects and vice versa.
     // If your project deals with JSON data, then Jackson can be very useful for serialization and deserialization.
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-joda', version: '2.17.0'
+    // The "unirest-java" library, version 3.13.10, provides streamlined HTTP communication capabilities for Java applications, simplifying API interactions and network requests.
+    implementation group: 'com.konghq', name: 'unirest-java', version: '3.13.10'
     // The "spring-boot-configuration-processor" library, version 2.7.18,
     // is a Spring Boot module that processes configuration metadata annotations to generate metadata files and aid in auto-configuration of Spring applications.
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.7.18'
@@ -152,8 +154,12 @@ dependencies {
 
     // unify4J: Java 1.8 skeleton library offering a rich toolkit of utility functions for collections, strings, date/time, JSON, maps, and more.
     implementation files('libs/unify4j-v1.0.0.jar')
+    // bot4j: a robust designed for sending notifications to various messaging platforms such as Telegram, Discord, and Slack.
+    implementation files('libs/bot4j-v1.0.0.jar')
     // force4j: a robust designed for managing HTTP status responses with a base response handler and control advice for response entities.
     implementation files('libs/force4j-v1.0.0.jar')
+    // botwrap4j: a robust design for sending notifications to various messaging platforms such as Telegram, Discord, and Slack. Based on configuration YAML. Router sends messages.
+    implementation files('libs/botwrap4j-v1.0.0.jar')
 }
 
 tasks.named('test') {

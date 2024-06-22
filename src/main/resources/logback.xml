@@ -58,6 +58,22 @@
         </layout>
     </appender>
 
+    <appender name="CONSOLE-DEBUG"
+              class="ch.qos.logback.core.ConsoleAppender">
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                ${console-formatted}
+            </Pattern>
+        </layout>
+    </appender>
+
     <appender name="CONSOLE-ERROR"
               class="ch.qos.logback.core.ConsoleAppender">
 
@@ -335,6 +351,11 @@
 
     <logger name="com.suit4j.app.*" level="WARN" additivity="false">
         <appender-ref ref="FILE-ROLLING-WARN"/>
+    </logger>
+
+    <logger name="com.suit4j.app.*" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE-ROLLING-DEBUG"/>
+        <appender-ref ref="CONSOLE-DEBUG"/>
     </logger>
 
     <logger name="java.sql.PreparedStatement" level="DEBUG">

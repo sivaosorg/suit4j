@@ -2,12 +2,20 @@
 # Config Logging Attributes
 # ////////////////////////////
 ---
+# noinspection SpellCheckingInspection
 logging:
   level: # Log levels severity mapping. For instance, `logging.level.org.springframework=DEBUG`.
     root: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type: TRACE
     org.springframework.web: DEBUG
+    org.apache.juli.logging.DirectJDKLog: OFF
+    org.unify4j.common.UniqueId4j: OFF
+    org.bot4j.telegram.common.Telegram4j: OFF
+    com.suit4j.app.configs.HttpInterceptorConfig: DEBUG
+    org.hibernate.validator.internal.util.Version: OFF
+    org.botwrap4j.service.impl.TelegramWrapServiceImpl: DEBUG
+    org.botwrap4j.service.impl.SlackWrapServiceImpl: OFF
   file:
     name: "logs/app.log"
     max-size: 2MB

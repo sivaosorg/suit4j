@@ -1,4 +1,14 @@
 //file:noinspection SpellCheckingInspection
+buildscript {
+    repositories {
+        // Use Maven Central for resolving dependencies.
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.yaml:snakeyaml:2.0'
+    }
+}
+
 plugins {
     // Apply the Java plugin for Java project configuration.
     id 'java'
@@ -25,22 +35,88 @@ configurations {
     }
 }
 
-def props = new Properties()
-props.load(new FileInputStream(rootProject.file("gradle.properties")))
-def _name = props.getProperty("ng.name")
-def _version = props.getProperty("ng.version")
-
 repositories {
     // Define Maven Central repository for fetching dependencies.
     mavenCentral()
 }
 
+import org.yaml.snakeyaml.Yaml
+
+class JarConfig {
+    boolean enabled
+    String source
+
+    JarConfig(Map<String, Object> config) {
+        enabled = config['enabled'] ?: false
+        source = config['source'] ?: ''
+    }
+}
+
+class NgConfig {
+    String name
+    String version
+    boolean enabledLink
+    List<JarConfig> jars
+
+    @SuppressWarnings('GroovyAssignabilityCheck')
+    NgConfig(Map<String, Object> configs) {
+        name = configs.containsKey('name') ? configs['name'] : 'bot4j'
+        version = configs.containsKey('version') ? configs['version'] : 'v0.0.0'
+        enabledLink = configs.containsKey('enabled_link') ? configs['enabled_link'] : false
+        // jars = configs.containsKey('jars') ? configs['jars'] : [] // List<String> jars
+        jars = configs.containsKey('jars') ? configs['jars'].collect { new JarConfig(it) } : []
+    }
+}
+
+// Define ngConfig as a static global variable
+NgConfig ngConfig = loadNgConfig()
+
+NgConfig loadNgConfig() {
+    def configs = file('gradle.yml')
+    if (configs.exists()) {
+        def yaml = new Yaml()
+        def config = yaml.load(new FileInputStream(configs))
+        println '⌛ Loading NgConfigs configuration via gradle.yml'
+        return new NgConfig(config['ng'] as Map<String, Object>)
+    } else {
+        println '⚠️ gradle.yml not found, using default configuration'
+        return new NgConfig(new HashMap<String, Object>())
+    }
+}
+
 bootJar {
-    archivesBaseName = "${_name}"
-    version = "${_version}"
+    archivesBaseName = "${ngConfig.getName()}"
+    version = "${ngConfig.getVersion()}"
+
+    // Handle duplicates
+    // duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // Compressing the external JAR files listed in gradle.yml using zipTree if enabled_link is true
+    if (ngConfig.isEnabledLink() && !ngConfig.getJars().isEmpty()) {
+        ngConfig.getJars().each { jar ->
+            if (jar.isEnabled() && !jar.getSource().isEmpty()) {
+                println("📦 Jar compressing... [${jar.getSource()}]")
+                from {
+                    zipTree(file(jar.getSource()))
+                }
+            }
+        }
+    } else {
+        println '⚠️ Skipping compression of dependency JAR files...'
+    }
 }
 
 dependencies {
+    // Add the dependencies listed in the gradle.yml file
+    if (!ngConfig.getJars().isEmpty()) {
+        ngConfig.getJars().each { jar ->
+            if (!jar.getSource().isEmpty()) {
+                println("🔄 Jar mounting... [${jar.getSource()}]")
+                implementation files(jar.getSource())
+            }
+        }
+    } else {
+        println '⚠️ No JAR files specified in gradle.yml for dependencies.'
+    }
     // The 'org.postgresql:postgresql' dependency is declared with 'runtimeOnly' scope,
     // indicating that it is required only during runtime for specific purposes,
     // such as database connectivity, but not for compilation or testing.
@@ -151,15 +227,6 @@ dependencies {
     // in Spring applications. It allows developers to manage transactions declarative or programmatically,
     // ensuring data consistency and integrity across various transactional operations.
     implementation 'org.springframework:spring-tx:5.3.25'
-
-    // unify4J: Java 1.8 skeleton library offering a rich toolkit of utility functions for collections, strings, date/time, JSON, maps, and more.
-    implementation files('libs/unify4j-v1.0.0.jar')
-    // bot4j: a robust designed for sending notifications to various messaging platforms such as Telegram, Discord, and Slack.
-    implementation files('libs/bot4j-v1.0.0.jar')
-    // force4j: a robust designed for managing HTTP status responses with a base response handler and control advice for response entities.
-    implementation files('libs/force4j-v1.0.0.jar')
-    // botwrap4j: a robust design for sending notifications to various messaging platforms such as Telegram, Discord, and Slack. Based on configuration YAML. Router sends messages.
-    implementation files('libs/botwrap4j-v1.0.0.jar')
 }
 
 tasks.named('test') {

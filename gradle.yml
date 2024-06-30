@@ -1,0 +1,12 @@
+#file: noinspection SpellCheckingInspection
+ng:
+  name: suit4j
+  version: v1.0.0
+  enabled_link: false # enable compression and attachment of the external libraries
+  jars:
+    - enabled: false # enable compression and attachment of the external libraries
+      source: "libs/unify4j-v1.0.0.jar" # lib Jar
+    - enabled: false
+      source: "libs/force4j-v1.0.0.jar"
+    - enabled: false
+      source: "libs/botwrap4j-v1.0.0.jar"

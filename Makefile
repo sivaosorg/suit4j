@@ -9,7 +9,7 @@ profile?=local
 # Run the Spring Boot application using Gradle's bootRun task
 run:
 	clear
-	./gradlew bootRun
+	./gradlew bootRun --args='--spring.profiles.active=$(profile)'
 # Build the JAR file using Gradle's bootJar task
 build:
 	clear

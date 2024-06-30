@@ -1,5 +1,6 @@
 # Define the directory where the JAR file is located after build
 BUILD_DIR=build/libs
+LOG_DIR=logs
 # Default profile if not specified
 profile?=local
 # Declare targets as phony to avoid conflicts with files of the same name
@@ -34,3 +35,8 @@ rollout: clean build
 execute:
 	chmod +x run.sh
 	./run.sh $(profile)
+tree:
+	# Create logs directory if not exists
+	mkdir -p $(LOG_DIR)
+	# Generate project structure and save it to logs/project_structure.txt
+	tree -I ".gradle|.idea|build|logs" > ./$(LOG_DIR)/project_structure.txt

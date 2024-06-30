@@ -84,3 +84,16 @@ make execute
 # Make the `run.sh` script executable and run it with a specified profile (e.g., `production`)
 make execute profile=prod
 ```
+
+## Configuration
+
+| # | Configs                  | Description                                                                                  |
+|---|--------------------------|----------------------------------------------------------------------------------------------|
+| 1 | `gradle.yml`             | Defines the Gradle build configuration and JAR output with a specific version                |
+| 2 | `application.yml`        | Defines Spring profiles and common configuration                                             |            
+| 3 | `application-common.yml` | Defines Spring Servlet information: **port**, **encoding**, **timezone**, **date-format**... |
+| 4 | `application-log.yml`    | Defines logging configuration: **format**, **level**, **filename**                           |
+| 5 | `application-dev.yml`    | Defines environment-specific properties for **development** and **staging**                  |
+| 6 | `application-prod.yml`   | Defines environment-specific properties for **production**                                   |
+| 7 | `application-local.yml`  | Defines environment-specific properties for **local development**                            |
+| 8 | `logback.xml`            | Defines Logback logging configuration: **logger format**, **pattern**                        |

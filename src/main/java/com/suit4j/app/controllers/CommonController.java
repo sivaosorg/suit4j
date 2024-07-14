@@ -1,6 +1,8 @@
 package com.suit4j.app.controllers;
 
+import com.suit4j.app.services.CommonService;
 import org.force4j.common.Force4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,12 @@ import org.unify4j.model.response.WrapResponse;
 @RestController
 @RequestMapping(value = "/api/v1/common")
 public class CommonController extends BaseController {
+    protected final CommonService commonService;
+
+    @Autowired
+    public CommonController(CommonService commonService) {
+        this.commonService = commonService;
+    }
 
     @GetMapping("/health")
     public @ResponseBody ResponseEntity<?> inform() {

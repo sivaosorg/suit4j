@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SuppressWarnings({"SpellCheckingInspection"})
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.suit4j.app", "org.force4j", "org.botwrap4j"})
+@ComponentScan(basePackages = {"com.suit4j.app", "org.force4j", "org.botwrap4j", "org.redis4j"})
 public class AppApplication {
 
     public static void main(String[] args) {

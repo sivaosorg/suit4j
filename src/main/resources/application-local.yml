@@ -58,7 +58,7 @@ spring:
         debugging: false # enable for debugging mode
         desc: "T.Worker 0000001"
         type: Markdown # type of message Markdown or HTML
-        chat_id: -1002042977093 # chatID of your group or channel
+        chat_id: -1002042977093 # chatID of your group or channel, t.me/javis_notify_forum_bot
         token: "6806983892:AAGcPZiuNktLFnyVWrRyOyYssECcVmNJSRo" # bot token by BotFather
       - key: "key2"
         cluster_id: "C002"

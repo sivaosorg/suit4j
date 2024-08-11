@@ -25,8 +25,12 @@ group = 'com.suit4j' // Set the group identifier for the project.
 version = '0.0.1' // Set the version of the project.
 
 java {
-    // Set Java source compatibility to Java 8.
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8) // Set this to 8, 11, or 17 based on your requirement
+    }
+    // Set target compatibility for Java 8
     sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
 }
 
 configurations {

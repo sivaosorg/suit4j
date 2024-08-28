@@ -7,3 +7,4 @@ ng:
     - source: "libs/force4j-v1.0.0.jar"
     - source: "libs/botwrap4j-v1.0.0.jar"
     - source: "libs/redis4j-v1.0.0.jar"
+    - source: "libs/rmq4j-v1.0.0.jar"

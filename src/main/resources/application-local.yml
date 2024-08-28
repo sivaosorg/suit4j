@@ -1,3 +1,4 @@
+#file: noinspection SpellCheckingInspection
 # ////////////////////////////
 # Config Spring Database Connections
 # ////////////////////////////
@@ -41,6 +42,56 @@ spring:
         max-idle: 8 # Maximum number of idle connections in the Jedis pool
         min-idle: 0 # Minimum number of idle connections in the Jedis pool
         max-wait: -1ms # Maximum wait time for a connection from the Jedis pool
+
+# ################################
+# Spring Rmq4j Configuration
+# Last Updated: 2024-06-16 10:48:54
+# ################################
+---
+spring:
+  rmq4j:
+    enabled: false # Global toggle for the Rmq4j module. Set to 'true' to enable the module.
+    debugging: true # Enable debugging mode for detailed logs and error traces. Set to 'true' for more verbose logging.
+    default_cluster: "cluster01" # The name of the default cluster that the application will connect to if not specified otherwise.
+    clusters:
+      cluster01: # Configuration for the first RabbitMQ cluster named "cluster01".
+        enabled: true # Toggle to enable or disable this specific cluster configuration.
+        host: 127.0.0.1  # Hostname or IP address of the RabbitMQ server for cluster01.
+        port: 5672 # The port on which the RabbitMQ server is listening.
+        username: guest # Username for authenticating with the RabbitMQ server.
+        password: guest # Password for authenticating with the RabbitMQ server.
+        virtual_host: "/" # Virtual host to be used within the RabbitMQ server.
+        use_ssl: false # Boolean flag to indicate if SSL should be used for secure connections.
+        desc: "The default cluster01"
+      cluster02:
+        enabled: true
+        host: 127.0.0.1
+        port: 5672
+        username: tms_admin
+        password: tms_admin
+        virtual_host: "/vhost"
+        use_ssl: false
+        desc: "The default cluster02"
+    configs: # Define specific configurations for exchanges, queues, and bindings within the clusters.
+      - cluster_key: "cluster01" # Reference to the cluster this configuration applies to.
+        dispatch_key: "DP001" # Unique dispatch key to identify this particular configuration.
+        desc: "publish logs for changes order status" # Description of this configuration's purpose.
+        enabled: true # Toggle to enable or disable this specific configuration.
+        debugging: true # Enable debugging mode for detailed logs within this configuration.
+        exchange: # Exchange settings for publishing messages.
+          name: "guest_exchange" # Name of the exchange to use.
+          kind: "fanout" # Type of exchange: can be 'fanout', 'topic', 'headers', or 'direct'.
+          durable: true # If true, the exchange will survive server restarts.
+          clearable: false # If true, the exchange will be deleted once no longer used.
+          internal: false # If true, the exchange is for internal use only, not for publishing from the client.
+          delayable: false # If true, the exchange supports delayed message delivery.
+        queue: # Queue settings for consuming messages.
+          name: "guest_queue" # Name of the queue to bind to the exchange.
+          durable: true # If true, the queue will survive server restarts.
+          exclusive: false # If true, the queue is exclusive to this connection and will be deleted once the connection closes.
+          clearable: false # If true, the queue will be deleted once no longer used.
+        bind: # Binding settings to link the exchange and the queue.
+          routing_key: "guest" # Routing key for the binding. Used to route messages to the correct queue.
 
 # ################################
 # Spring BotWrap4j Config

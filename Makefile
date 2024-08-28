@@ -4,7 +4,7 @@ LOG_DIR=logs
 # Default profile if not specified
 profile?=local
 # Declare targets as phony to avoid conflicts with files of the same name
-.PHONY: run build clean rebuild task test unlink rollout
+.PHONY: run build jar clean rebuild task test unlink rollout
 
 # Run the Spring Boot application using Gradle's bootRun task
 run:
@@ -15,6 +15,7 @@ build:
 	clear
 	rm -rf build/*
 	./gradlew bootJar
+jar: build
 # Clean build artifacts using Gradle's clean task
 clean:
 	./gradlew clean

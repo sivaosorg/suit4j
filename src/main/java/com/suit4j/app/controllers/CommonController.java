@@ -2,6 +2,7 @@ package com.suit4j.app.controllers;
 
 import com.suit4j.app.services.CommonService;
 import org.clarify4j.common.annotation.ExecutorSince;
+import org.clarify4j.common.annotation.SagaAuthHeader;
 import org.clarify4j.common.annotation.SagaHeader;
 import org.force4j.common.Force4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class CommonController extends BaseController {
     }
 
     @SagaHeader
+    @SagaAuthHeader(value = "fixed-access-token", disabled = true)
     @ExecutorSince
     @PostMapping("/health")
     public @ResponseBody ResponseEntity<?> inform(@Valid @RequestBody Object request) {

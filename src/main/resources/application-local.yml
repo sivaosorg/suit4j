@@ -18,7 +18,7 @@ spring:
   # noinspection SpellCheckingInspection
   redis4j: # Redis4J specific configuration
     enabled: false # Toggle to enable or disable Redis4J
-    debugging: true # Toggle debugging for Redis4J
+    debugging: false # Toggle debugging for Redis4J
     test_on_borrow: true # Test the connection on borrowing from the pool
     test_on_return: true # Test the connection on returning to the pool
     test_while_idle: true # Test the connection while idle in the pool

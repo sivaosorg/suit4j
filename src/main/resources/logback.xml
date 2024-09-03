@@ -358,6 +358,11 @@
         <appender-ref ref="CONSOLE-DEBUG"/>
     </logger>
 
+    <logger name="org.clarify4j.*" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE-ROLLING-DEBUG"/>
+        <appender-ref ref="CONSOLE-DEBUG"/>
+    </logger>
+
     <logger name="java.sql.PreparedStatement" level="DEBUG">
         <appender-ref ref="FILE-ROLLING-DEBUG"/>
     </logger>

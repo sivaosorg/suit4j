@@ -1,6 +1,7 @@
 package com.suit4j.app.controllers;
 
 import com.suit4j.app.services.CommonService;
+import org.clarify4j.common.annotation.ExecutorSince;
 import org.force4j.common.Force4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class CommonController extends BaseController {
         this.commonService = commonService;
     }
 
+    @ExecutorSince
     @GetMapping("/health")
     public @ResponseBody ResponseEntity<?> inform() {
         WrapResponse<?> response = new HttpWrapBuilder<>()
@@ -30,6 +32,7 @@ public class CommonController extends BaseController {
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatusCode()));
     }
 
+    @ExecutorSince
     @PostMapping("/health")
     public @ResponseBody ResponseEntity<?> inform(@RequestBody Object request) {
         WrapResponse<?> response = new HttpWrapBuilder<>()

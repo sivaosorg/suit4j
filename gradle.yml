@@ -9,3 +9,4 @@ ng:
     - source: "libs/redis4j-v1.0.0.jar"
     - source: "libs/rmq4j-v1.0.0.jar"
     - source: "libs/clarify4j-v1.0.0.jar"
+    - source: "libs/base4j-v1.0.0.jar"
